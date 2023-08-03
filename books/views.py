@@ -1,13 +1,19 @@
 from django.http import HttpResponse
 from books.models import Book
 
+from django.shortcuts import render
+
+# from django.template import loader
+
 
 def books(request):
     books = Book.objects.all()
-    res = ""
-    for book in books:
-        res += f"{book.title} / {book.author.name}<br>"
-    return HttpResponse(res)
+    context = {
+        "book_list": books,
+    }
+    return render(request, "books/index.html", context)
+    # template = loader.get_template("books/index.html")
+    # return HttpResponse(template.render(context, request))
 
 
 def book_detail(request, book_id):
